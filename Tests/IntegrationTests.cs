@@ -99,5 +99,22 @@ namespace Tests
             Assert.NotNull(actionResult);
             Assert.IsType<NotFoundResult>(actionResult);
         }
+
+        [Fact]
+        public void RightDiffIsMissing()
+        {
+            // Arrange
+            var logger = Mock.Of<ILogger<DiffController>>();
+            var cache = new MemoryCache(new MemoryCacheOptions());
+            var controller = new DiffController(logger, cache);
+
+            controller.Left("1", "dGhpcyBpcyBqdXN0IGEgdGVzdAp0byB0ZXN0IHNvbWV0aGluZw==");
+
+            var actionResult = controller.Get("1");
+
+            // Assert
+            Assert.NotNull(actionResult);
+            Assert.IsType<BadRequestResult>(actionResult);
+        }
     }
 }
