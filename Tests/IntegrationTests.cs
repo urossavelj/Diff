@@ -116,5 +116,24 @@ namespace Tests
             Assert.NotNull(actionResult);
             Assert.IsType<BadRequestResult>(actionResult);
         }
+
+        [Fact]
+        public void DiffsAreEqual()
+        {
+            // Arrange
+            var logger = Mock.Of<ILogger<DiffController>>();
+            var cache = new MemoryCache(new MemoryCacheOptions());
+            var controller = new DiffController(logger, cache);
+
+            controller.Left("1", "dGhpcyBpcyBqdXN0IGEgdGVzdAp0byBmYXJ0IHNvbWV0aGluZwo=");
+            controller.Right("1", "dGhpcyBpcyBqdXN0IGEgdGVzdAp0byBmYXJ0IHNvbWV0aGluZwo=");
+
+            var actionResult = controller.Get("1");
+
+            // Assert
+            Assert.NotNull(actionResult);
+            var res = Assert.IsType<OkObjectResult>(actionResult);
+            Assert.True(res.Value.ToString() == "Diffs are equal");
+        }
     }
 }
