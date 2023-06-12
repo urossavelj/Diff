@@ -9,6 +9,7 @@
             var previousPosition = 0;
             var offsetLength = 1;
 
+            //Compares chars of each diff for differences
             for (var ch = 0; ch < diff.Left.Length; ch++)
             {
                 if (diff.Left[ch] != diff.Right[ch])

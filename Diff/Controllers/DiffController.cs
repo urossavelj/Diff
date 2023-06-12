@@ -16,6 +16,12 @@ namespace Diff.Controllers
             _memoryCache = memoryCache;
         }
 
+        /// <summary>
+        /// Saves left side of diff into memory cache
+        /// </summary>
+        /// <param name="id">Diff id</param>
+        /// <param name="entryDiff">Left diff</param>
+        /// <returns></returns>
         [HttpPost("{id}/left")]
         public IActionResult Left(string id, string entryDiff)
         {
@@ -36,6 +42,12 @@ namespace Diff.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Saves right side of diff into memory cache
+        /// </summary>
+        /// <param name="id">Diff id</param>
+        /// <param name="entryDiff">Right diff</param>
+        /// <returns></returns>
         [HttpPost("{id}/right")]
         public IActionResult Right(string id, string entryDiff)
         {
@@ -56,6 +68,11 @@ namespace Diff.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Gets diff result
+        /// </summary>
+        /// <param name="id">Diff id</param>
+        /// <returns>Returns IActionResult</returns>
         [HttpGet]
         public IActionResult Get(string id)
         {
