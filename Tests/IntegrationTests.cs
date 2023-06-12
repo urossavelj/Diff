@@ -85,5 +85,19 @@ namespace Tests
             Assert.IsType<OkResult>(actionResult2);
         }
 
+        [Fact]
+        public void DiffDoesntExistInCache()
+        {
+            // Arrange
+            var logger = Mock.Of<ILogger<DiffController>>();
+            var cache = new MemoryCache(new MemoryCacheOptions());
+            var controller = new DiffController(logger, cache);
+
+            var actionResult = controller.Get("1");
+
+            // Assert
+            Assert.NotNull(actionResult);
+            Assert.IsType<NotFoundResult>(actionResult);
+        }
     }
 }
