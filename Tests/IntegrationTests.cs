@@ -154,5 +154,29 @@ namespace Tests
             var res = Assert.IsType<OkObjectResult>(actionResult);
             Assert.True(res.Value.ToString() == "Input not of equal size");
         }
+
+        [Fact]
+        public void CorrectDiffShouldBeReturned()
+        {
+            // Arrange
+            var logger = Mock.Of<ILogger<DiffController>>();
+            var cache = new MemoryCache(new MemoryCacheOptions());
+            var controller = new DiffController(logger, cache);
+
+            controller.Left("1", "dGhpcyBpcyBqdXN0IGEgdGVzdAp0byBmYXJ0IHNvbWV0aGluZwo=");
+            controller.Right("1", "dGhpcyBpcyBqdXN0IGEgdGVzdAp0byB0ZXN0IHNvbWV0aGluZw==");
+
+            var actionResult = controller.Get("1");
+
+            // Assert
+            Assert.NotNull(actionResult);
+            var res = Assert.IsType<OkObjectResult>(actionResult);
+            var dict = res.Value as Dictionary<int, int>;
+
+            Assert.NotNull(dict);
+            Assert.True(dict.Count() == 3, "Result does not have 3 differences");
+            Assert.True(dict.ContainsKey(31) && dict.ContainsKey(34) && dict.ContainsKey(50));
+            Assert.True(dict[31] == 2 && dict[34] == 1 && dict[50] == 1);
+        }
     }
 }
